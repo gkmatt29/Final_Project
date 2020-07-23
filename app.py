@@ -40,7 +40,7 @@ def songs(mood_cluster):
 def similarsongs(title):
     # change finaldata to matt's final collection
     try:
-        record = db.final.song_clusters.find({"track_name":{'$regex':title.proper()}}) # search base ofd partial input
+        record = db.final.song_clusters.find({"track_name":{'$regex':title.proper()}}) 
         cluster=[r["cluster"] for r in record][0]
     except Exception as e:
         try:
