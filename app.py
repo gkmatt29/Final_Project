@@ -32,28 +32,25 @@ def index():
 
 @app.route('/mood/<mood_cluster>')
 def songs(mood_cluster):
-    # change finaldata to matt's final collection
+
     songs = db.final.mood_clusters.find({"cluster":int(mood_cluster)}).limit(10)
     return  {'results': [s["track_name"] for s in songs]}
 
 @app.route('/similar/<title>')
 def similarsongs(title):
-    # change finaldata to matt's final collection
-    try:
-        record = db.final.song_clusters.find({"track_name":{'$regex':title.proper()}}) 
+
+    # try:
+        record = db.final.song_clusters.find({"track_name":{'$regex':title}})
         cluster=[r["cluster"] for r in record][0]
-    except Exception as e:
-        try:
-            record= db.final.song_clusters.find({"track_name":{'$regex':title.lower()}})
-            cluster+=[r["cluster"] for r in record][0]
-        except Exception as e:
-            try:
-                record= db.final.song_clusters.find({"track_name":{'$regex':title.upper()}})
-                cluster+=[r["cluster"] for r in record][0]
-            except Exception as e:
-                pass   
-    songs = db.final.song_clusters.find({"cluster":int(cluster)}).limit(10)
-    return  {'results': [s["track_name"] for s in songs]}
+    # except:
+    #     record= db.final.song_clusters.find({"track_name":{'$regex':title.lower()}})
+    #     cluster+=[r["cluster"] for r in record][0]
+    # finally:
+    #     record= db.final.song_clusters.find({"track_name":{'$regex':title.upper()}})  
+    #     cluster+=[r["cluster"] for r in record][0]
+
+        songs = db.final.song_clusters.find({"cluster":int(cluster)}).limit(10)
+        return  {'results': [s["track_name"] for s in songs]}
 
 
 if __name__ == "__main__":
